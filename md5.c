@@ -16,23 +16,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 
+char* hash;
+char* wordlist;
+
 int process_args(int argc, char* argv[]);
 
-int main(int argc, char* argv[]){
-	if(argc == 1){
+int main(int argc, char* argv[]) {
+	if (argc == 1) {
 		printf("MD5 Brute Force - Usage:\n");
 		printf("./md5_brute -h <hash> -w <wordlist>");
 		goto exit;
 	}
+	if (process_args(argc, argv) == -1)
+		goto halt;
 	return 0;
-	exit:
+	halt: printf("An error occured.");
 	return -1;
+	exit: return -1;
 }
 
-int process_args(int argc, char* argv[]){
+int process_args(int argc, char* argv[]) {
+	if (argc < 5) {
+		return -1;
+	}
+	for (int i; i < (argc - 1); i++) {
+		if (strcmp(argv[i], "-h")) {
+			i++;
+			hash = argv[i];
+			printf("Hash: %s\n",hash);
+		} else if (strcmp(argv[i], "-w")) {
+			i++;
+			wordlist = argv[i];
+			printf("Using list: %s\n",wordlist);
+		}
+	}
 	return 0;
 }
